@@ -2,8 +2,13 @@
 
 import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import LineChart from "./components/LineChart";
 
-interface dataType {
+Chart.register(CategoryScale);
+
+export interface dataType {
   id: string,
   rank: string,
   symbol: string,
@@ -18,7 +23,7 @@ interface dataType {
   vwap24Hr: string
 };
 
-interface pricesType {
+export interface pricesType {
   priceUsd: number,
   time: number,
   date: string
@@ -30,7 +35,7 @@ export default function Home() {
   const [currencyToSearch, setCurrencyToSearch] = useState<string | null>(null);
   const [currencySearched, setCurrencySearched] = useState<dataType | null>(null);
   const [prices, setPrices] = useState<pricesType[] | null>(null);
-  
+
   const handleCurrencySearch = () => {
     const curr = data?.find((curr) => curr.id === currencyToSearch)
     if(curr)
@@ -131,19 +136,17 @@ export default function Home() {
               >
                 Click here to see price graph
               </button>
-              {
-                prices &&
-                prices.map((price) => (
-                  <div key={price.time} className="py-2">
-                    <p>Price: ${ price.priceUsd }</p>
-                    <p>Date: { price.date }</p>
-                  </div>
-                ))
-              }
             </div>
           </div>
         }
       </div>
+      {
+        prices &&
+        <LineChart
+          prices={ prices }
+          currencySearched={ currencySearched }
+        />
+      }
     </div>
   );
 }
