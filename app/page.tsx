@@ -134,7 +134,7 @@ export default function Home() {
               {
                 prices &&
                 prices.map((price) => (
-                  <div className="py-2">
+                  <div key={price.time} className="py-2">
                     <p>Price: ${ price.priceUsd }</p>
                     <p>Date: { price.date }</p>
                   </div>
