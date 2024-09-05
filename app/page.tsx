@@ -16,6 +16,12 @@ interface dataType {
   marketCapUsd: string,
   maxSupply: string,
   vwap24Hr: string
+};
+
+interface pricesType {
+  priceUsd: number,
+  time: number,
+  date: string
 }
 
 export default function Home() {
@@ -23,11 +29,26 @@ export default function Home() {
   const [data, setData] = useState<dataType[] | null>(null);
   const [currencyToSearch, setCurrencyToSearch] = useState<string | null>(null);
   const [currencySearched, setCurrencySearched] = useState<dataType | null>(null);
+  const [prices, setPrices] = useState<pricesType[] | null>(null);
   
   const handleCurrencySearch = () => {
     const curr = data?.find((curr) => curr.id === currencyToSearch)
     if(curr)
     setCurrencySearched(curr);
+  };
+
+  const generateGraph = async () => {
+    const intervals = ["m1", "m5", "m15", "m30", "h1", "h2", "h6", "h12", "d1"];
+    const interval = intervals[8]; // d1
+    try {
+      const URL = `${process.env.NEXT_PUBLIC_API_URL}/${currencySearched?.id}/history?interval=${interval}`;
+    
+      const response = await fetch(URL).then(res => res.json());
+      setPrices(response.data);
+    }
+    catch(error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -46,6 +67,16 @@ export default function Home() {
     getData();
   }, []);
 
+  // reset price graph on change
+  useEffect(() => {
+    setPrices(null);
+  }, [currencySearched]);
+
+  // reset currency searched on change
+  useEffect(() => {
+    setCurrencySearched(null)
+  }, [currencyToSearch]);
+
   if(!data) {
     return(
       <p className="text-2xl p-20 md:px-40 lg:px-60">Loading...</p>
@@ -55,37 +86,61 @@ export default function Home() {
   return (
     <div className="px-20 md:px-40 lg:px-60">
       <Navbar />
-      <div className="flex flex-col items-center text-center">
+      <div className="flex flex-col items-center text-center space-y-4">
         <div>
-          <p className="text-xl font-bold">Eth Stream</p>
+          <p className="text-2xl font-bold">Eth Stream</p>
           <p className="text-md font-bold">Last updated on { lastUpdateTime }</p>
         </div>
         <div className="flex items-center">
-          <select className="cursor-pointer border-2 p-1 rounded-md" onChange={(e) => setCurrencyToSearch(e.target.value)}>
+          <select className="bg-fontColor text-bgColor cursor-pointer border-2 p-1 rounded-md" onChange={(e) => setCurrencyToSearch(e.target.value)}>
             <option selected disabled hidden>
               Select currency
             </option>
             {
               data?.map((item) => (
-                <option key={item.id} value={item.id} >
+                <option className="bg-bgColor text-fontColor" key={item.id} value={item.id} >
                   { item.name }
                 </option>
               ))
             }
           </select>
-          <button className="px-4 py-1 m-2 border-2 rounded-md" onClick={ handleCurrencySearch } >Go</button>
+          <button
+            className="px-4 py-1 m-2 border-2 rounded-md bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
+            onClick={ handleCurrencySearch }
+          >
+            Go
+          </button>
         </div>
 
         {
           currencySearched &&
-          <div className="text-left space-y-2">
-            { currencySearched.name && <p>Name of the currency: { currencySearched.name }</p> }
-            { currencySearched.symbol && <p>Symbol: { currencySearched.symbol }</p> }
-            { currencySearched.rank && <p>Rank (in ascending order): { currencySearched.rank }</p> }
-            { currencySearched.priceUsd && <p>Price: ${ parseFloat(currencySearched.priceUsd).toFixed(2) }</p> }
-            { currencySearched.symbol && currencySearched.maxSupply && <p>Total quantity of { currencySearched.symbol } issued: { parseFloat(currencySearched.maxSupply).toFixed(2) }</p> }
-            { currencySearched.changePercent24Hr && <p>Value change in the last 24 hrs: { currencySearched.changePercent24Hr }</p> }
-            { currencySearched.marketCapUsd && <p>Market Cap: ${ parseFloat(currencySearched.marketCapUsd).toFixed(2) }</p> }
+          <div>
+            <div className="text-left space-y-2">
+              { currencySearched.name && <p>Name of the currency: { currencySearched.name }</p> }
+              { currencySearched.symbol && <p>Symbol: { currencySearched.symbol }</p> }
+              { currencySearched.rank && <p>Rank (in ascending order): { currencySearched.rank }</p> }
+              { currencySearched.priceUsd && <p>Price: ${ parseFloat(currencySearched.priceUsd).toFixed(2) }</p> }
+              { currencySearched.symbol && currencySearched.maxSupply && <p>Total quantity of { currencySearched.symbol } issued: { parseFloat(currencySearched.maxSupply).toFixed(2) }</p> }
+              { currencySearched.changePercent24Hr && <p>Value change in the last 24 hrs: { currencySearched.changePercent24Hr }</p> }
+              { currencySearched.marketCapUsd && <p>Market Cap: ${ parseFloat(currencySearched.marketCapUsd).toFixed(2) }</p> }
+            </div>
+            <div>
+              <button
+                className="px-4 py-1 m-2 mt-6 border-2 rounded-md bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
+                onClick={generateGraph}
+              >
+                Click here to see price graph
+              </button>
+              {
+                prices &&
+                prices.map((price) => (
+                  <div className="py-2">
+                    <p>Price: ${ price.priceUsd }</p>
+                    <p>Date: { price.date }</p>
+                  </div>
+                ))
+              }
+            </div>
           </div>
         }
       </div>
