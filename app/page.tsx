@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
+import zoomPlugin from "chartjs-plugin-zoom";
 import LineChart from "./components/LineChart";
 
 Chart.register(CategoryScale);
+Chart.register(zoomPlugin);
 
 export interface dataType {
   id: string,
@@ -35,6 +37,7 @@ export default function Home() {
   const [currencyToSearch, setCurrencyToSearch] = useState<string | null>(null);
   const [currencySearched, setCurrencySearched] = useState<dataType | null>(null);
   const [prices, setPrices] = useState<pricesType[] | null>(null);
+  const [interval, setInterval] = useState<string | null>("d1");
 
   const handleCurrencySearch = () => {
     const curr = data?.find((curr) => curr.id === currencyToSearch)
@@ -43,9 +46,10 @@ export default function Home() {
   };
 
   const generateGraph = async () => {
-    const intervals = ["m1", "m5", "m15", "m30", "h1", "h2", "h6", "h12", "d1"];
-    const interval = intervals[8]; // d1
+    // const intervals = ["m1", "m5", "m15", "m30", "h1", "h2", "h6", "h12", "d1"];
+    // const interval = intervals[8]; // d1
     try {
+      console.log(interval)
       const URL = `${process.env.NEXT_PUBLIC_API_URL}/${currencySearched?.id}/history?interval=${interval}`;
     
       const response = await fetch(URL).then(res => res.json());
@@ -54,6 +58,10 @@ export default function Home() {
     catch(error) {
       console.log(error);
     }
+  };
+
+  const modifyGraph = (e: any) => {
+    setInterval(e.target.value);
   };
 
   useEffect(() => {
@@ -81,6 +89,10 @@ export default function Home() {
   useEffect(() => {
     setCurrencySearched(null)
   }, [currencyToSearch]);
+
+  useEffect(() => {
+    setPrices(null)
+  }, [interval])
 
   if(!data) {
     return(
@@ -131,21 +143,41 @@ export default function Home() {
             </div>
             <div>
               <button
-                className="px-4 py-1 m-2 mt-6 border-2 rounded-md bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
+                className="px-4 py-1 mx-2 my-6 border-2 rounded-md bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
                 onClick={generateGraph}
               >
                 Click here to see price graph
               </button>
+              <select
+                defaultValue="d1"
+                className="p-1 m-1 rounded-md text-bgColor"
+                onChange={ modifyGraph }
+              >
+                <option value="d1">Daily</option>
+                <option value="m1">1 min</option>
+                <option value="m5">5 mins</option>
+                <option value="m15">15 mins</option>
+                <option value="m30">30 mins</option>
+                <option value="h1">1 hr</option>
+                <option value="h2">2 hrs</option>
+                <option value="h6">6 hrs</option>
+                <option value="h12">12 hrs</option>
+              </select>
             </div>
           </div>
         }
       </div>
       {
         prices &&
-        <LineChart
-          prices={ prices }
-          currencySearched={ currencySearched }
-        />
+        <div className="text-center space-y-4">
+          <LineChart
+            prices={ prices }
+            currencySearched={ currencySearched }
+            interval={ interval }
+          />
+          <p>Use scroll to zoom in/out</p>
+          <p>Slide/swipe to pan while zoomed in</p>
+        </div>
       }
     </div>
   );
