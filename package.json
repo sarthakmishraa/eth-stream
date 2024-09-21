@@ -12,7 +12,7 @@
     "@types/chart.js": "^2.9.41",
     "chart.js": "^4.4.4",
     "chartjs-plugin-zoom": "^2.0.1",
-    "next": "14.2.7",
+    "next": "^14.2.13",
     "next-auth": "^4.24.7",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",

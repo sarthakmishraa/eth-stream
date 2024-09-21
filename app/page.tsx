@@ -29,9 +29,9 @@ export interface pricesType {
   priceUsd: number,
   time: number,
   date: string
-}
+};
 
-export default function Home() {
+export default function Home () {
   const [lastUpdateTime, setLastUpdateTime] = useState<String | null>(null);
   const [data, setData] = useState<dataType[] | null>(null);
   const [currencyToSearch, setCurrencyToSearch] = useState<string | null>(null);
@@ -46,10 +46,7 @@ export default function Home() {
   };
 
   const generateGraph = async () => {
-    // const intervals = ["m1", "m5", "m15", "m30", "h1", "h2", "h6", "h12", "d1"];
-    // const interval = intervals[8]; // d1
     try {
-      console.log(interval)
       const URL = `${process.env.NEXT_PUBLIC_API_URL}/${currencySearched?.id}/history?interval=${interval}`;
     
       const response = await fetch(URL).then(res => res.json());
@@ -91,8 +88,8 @@ export default function Home() {
   }, [currencyToSearch]);
 
   useEffect(() => {
-    setPrices(null)
-  }, [interval])
+    setPrices(null);
+  }, [interval]);
 
   if(!data) {
     return(
@@ -115,7 +112,7 @@ export default function Home() {
             </option>
             {
               data?.map((item) => (
-                <option className="bg-bgColor text-fontColor" key={item.id} value={item.id} >
+                <option className="bg-bgColor text-fontColor" key={ item.id } value={ item.id } >
                   { item.name }
                 </option>
               ))
@@ -144,7 +141,7 @@ export default function Home() {
             <div>
               <button
                 className="px-4 py-1 mx-2 my-6 border-2 rounded-md bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
-                onClick={generateGraph}
+                onClick={ generateGraph }
               >
                 Click here to see price graph
               </button>
@@ -169,7 +166,7 @@ export default function Home() {
       </div>
       {
         prices &&
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-4 mb-8">
           <LineChart
             prices={ prices }
             currencySearched={ currencySearched }
@@ -177,6 +174,7 @@ export default function Home() {
           />
           <p>Use scroll to zoom in/out</p>
           <p>Slide/swipe to pan while zoomed in</p>
+          <hr />
         </div>
       }
     </div>
