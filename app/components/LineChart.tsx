@@ -1,7 +1,7 @@
 "use client";
 
 import { Line } from "react-chartjs-2";
-import { pricesType, dataType } from "../page";
+import { pricesType, dataType } from "../dashboard/page";
 
 interface propsType {
     prices: pricesType[] | null,
