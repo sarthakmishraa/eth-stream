@@ -7,15 +7,36 @@ const Navbar = () => {
     const session = useSession();
 
     return(
-        <div className="flex flex-row items-center justify-between">
+        <div className="my-4 px-20 pt-2 md:px-40 lg:px-60 flex flex-row items-center justify-between">
             <div>
                 <Link href="/">
-                    <p className="text-lg cursor-pointer hover:underline">
+                    <p className="text-2xl cursor-pointer hover:underline">
                         Eth Stream
                     </p>
                 </Link>
             </div>
             <div>
+            <Link href="https://www.linkedin.com/in/sarthakmishraa/" target="_blank">
+                <button
+                    className="p-1 m-2 text-sm rounded-md border-2 bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
+                >
+                    LinkedIn
+                </button>
+            </Link>
+            <Link href="https://github.com/sarthakmishraa" target="_blank">
+                <button
+                    className="p-1 m-2 text-sm rounded-md border-2 bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
+                    >
+                        GitHub
+                </button>
+            </Link>
+            <Link href="https://sarthakmishraa.github.io/portfolio/" target="_blank">
+                <button
+                    className="p-1 m-2 text-sm rounded-md border-2 bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
+                    >
+                        Portfolio
+                </button>
+            </Link>
                 {
                     session.data?.user ? (
                         <button
@@ -27,7 +48,7 @@ const Navbar = () => {
                         <button
                             className="p-1 m-2 text-sm rounded-md border-2 bg-fontColor text-bgColor hover:bg-bgColor hover:text-fontColor"
                             onClick={() => signIn()}>
-                                Sign In
+                                Sign Up
                         </button>
                     )
                 }
