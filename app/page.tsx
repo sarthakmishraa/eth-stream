@@ -1,14 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Navbar from "./components/Navbar";
-import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import zoomPlugin from "chartjs-plugin-zoom";
+import Chart from "chart.js/auto";
+
+import Navbar from "./components/Navbar";
 import LineChart from "./components/LineChart";
 
 Chart.register(CategoryScale);
-Chart.register(zoomPlugin);
 
 export interface dataType {
   id: string,

@@ -60,21 +60,6 @@ const LineChart = (props: propsType) => {
                       }
                     }
                   },
-                  zoom: {
-                    pan: {
-                      enabled: true,
-                      mode: "x"
-                    },
-                    zoom: {
-                      pinch: {
-                        enabled: true
-                      },
-                      wheel: {
-                        enabled: true
-                      },
-                      mode: "x"
-                    }
-                  }
                 },
                 scales: {
                   x: {
