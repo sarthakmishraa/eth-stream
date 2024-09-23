@@ -171,8 +171,6 @@ export default function Home () {
             currencySearched={ currencySearched }
             interval={ interval }
           />
-          <p>Use scroll to zoom in/out</p>
-          <p>Slide/swipe to pan while zoomed in</p>
           <hr />
         </div>
       }
