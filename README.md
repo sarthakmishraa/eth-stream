@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Eth Stream
 
-## Getting Started
+Eth Stream is a web application that allows users to view real-time Ethereum data, including price, market cap, symbol, rank, and more. It also provides an interactive price graph with various duration options. Built with Next.js and Chart.js, the app fetches data from the CoinCap API and is deployed on Vercel. The app also supports user authentication via OAuth for sign-in/sign-up.
 
-First, run the development server:
+## Key Features
+- Real-time Ethereum price updates
+- Market cap, symbol, price, rank display etc
+- Price graph with multiple time intervals:
+  - Daily
+  - 1 min, 5 min, 15 min, 30 min
+  - 1 hr, 2 hr, 6 hr, 12 hr
+- OAuth sign-in/sign-up for user authentication
+- Responsive design for all devices
+- Smooth user experience with fast data retrieval
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Snippets
+<h3>Eth Stream Landing</h3>
+<img src="./public/eth1.png" width="600" />
+<h3>Eth Stream 1</h3>
+<img src="./public/eth2.png" width="600" />
+<h3>Eth Stream 2</h3>
+<img src="./public/eth3.png" width="600" />
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Short Description
+Eth Stream leverages the CoinCap API to display real-time Ethereum market data. Users can track Ethereum's price, market cap, symbol, rank, and analyze price trends over various time frames using interactive charts powered by Chart.js. The app includes OAuth-based sign-in and sign-up for a seamless user experience. It is optimized for performance and deployed on Vercel.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Used
+- **Frontend:** Next.js
+- **Charts:** Chart.js
+- **API:** CoinCap API
+- **Authentication:** OAuth
+- **Deployment:** Vercel
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## How to Use
 
-## Learn More
+1. Clone the repository: `git clone https://github.com/sarthakmishraa/eth-stream.git`
 
-To learn more about Next.js, take a look at the following resources:
+Feel free to clone the repository and explore the project. Contributions are welcome!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contributing
+Contributions are welcome! Please fork the repository and submit a pull request.
